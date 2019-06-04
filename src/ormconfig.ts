@@ -6,7 +6,7 @@ export const ormOption: ConnectionOptions = {
     port: 3306,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: 'dev',
+    database: process.env.DB_DATABASE_PRODUCTION,
     entities: [`${__dirname}/entities/**/*.entity.ts`],
     synchronize: true,
     logging: true,
