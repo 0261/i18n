@@ -1,6 +1,4 @@
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
-import { Container } from 'typedi';
 import Express from 'express';
 import { debug } from 'debug';
 import helmet from 'helmet';
@@ -11,6 +9,7 @@ import { createConnection } from 'typeorm';
 
 import './env';
 import { ormOption } from './ormconfig';
+import { createSchema } from './utils/createSchema';
 const log = debug('app').extend('server');
 
 class Application {
@@ -27,10 +26,7 @@ class Application {
         try {
             await createConnection(ormOption);
 
-            const schema = await buildSchema({
-                resolvers: [`${__dirname}/resolvers/**/*.resolver.ts`],
-                container: Container,
-            });
+            const schema = await createSchema();
 
             const server = new ApolloServer({
                 schema,
